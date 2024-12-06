@@ -1,0 +1,27 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-app
+  namespace: new
+spec:
+  replicas: 2  # Number of pods
+  selector:
+    matchLabels:
+      app: news-app
+  template:
+    metadata:
+      labels:
+        app: news-app
+    spec:
+      containers:
+      - name: news-app
+        image: sherinmonbiju/news-app:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: NEWS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: news-app
+              key: NEWS_API_KEY

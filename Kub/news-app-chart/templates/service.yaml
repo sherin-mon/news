@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "news-app-chart.fullname" . }}
+spec:
+  type: NodePort
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    - protocol: TCP
+      port: 80  # This is the port exposed by the service
+      targetPort: 8000  # This should match the Flask app's internal port
+
