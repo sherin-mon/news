@@ -1,4 +1,3 @@
-# deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,3 +24,18 @@ spec:
             secretKeyRef:
               name: news-app
               key: NEWS_API_KEY
+        readinessProbe:
+          httpGet:
+            path: /health  # Or any valid path for health check
+            port: 8000  # Ensure the port matches the one used by Flask
+          initialDelaySeconds: 10  # Wait 10 seconds before the first probe
+          periodSeconds: 5  # Probe every 5 seconds
+          failureThreshold: 3  # Fail after 3 unsuccessful probes
+        livenessProbe:
+          httpGet:
+            path: /health  # Or any valid path for health check
+            port: 8000  # Ensure the port matches the one used by Flask
+          initialDelaySeconds: 10  # Wait 10 seconds before the first probe
+          periodSeconds: 5  # Probe every 5 seconds
+          failureThreshold: 3  # Fail after 3 unsuccessful probes
+

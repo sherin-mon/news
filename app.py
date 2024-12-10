@@ -3,14 +3,17 @@ from flask import Flask, jsonify, send_from_directory
 import os
 import logging
 
-# Remove dotenv loading for Kubernetes setup
-# load_dotenv()
-
-app = Flask(__name__)
-
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Create the Flask app
+app = Flask(__name__)
+
+# Health route to support liveness/readiness probes
+@app.route('/health')
+def health_check():
+    return "Healthy", 200
 
 # Favicon route
 @app.route('/favicon.ico')
@@ -39,6 +42,7 @@ def get_news():
         logger.error(f"Error fetching news data: {e}")
         return jsonify({'error': 'Failed to fetch news data'}), 500
 
+# Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
 
