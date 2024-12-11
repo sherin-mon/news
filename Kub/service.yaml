@@ -10,7 +10,7 @@ spec:
   ports:
     - name: http    # Add a name here
       protocol: TCP
-      port: 5000      # Service port
+      port: 8000      # Service port
       targetPort: 8000  # Container port
       nodePort: 30001
 
